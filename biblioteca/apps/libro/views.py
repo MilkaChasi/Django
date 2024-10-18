@@ -46,6 +46,6 @@ def eliminarAutor(request, id):
         autor.estado = False
         autor.save()
         return redirect('libro:listar_autor')
-    return render(request, 'libro/eliminar_autor.html', {'autor': autor})
+    return render(request, 'libro/eliminar_autor.html', {'autor' : autor})
 
    
