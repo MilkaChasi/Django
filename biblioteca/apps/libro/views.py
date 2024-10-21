@@ -1,51 +1,43 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
+from django.urls import reverse_lazy
 from .forms import Autorforms
-from .models import Autor
+from .models import Autor, Libro
 
-# Create your views here.
-def Home(request):
-    return render(request, 'libro/index.html')
 
-def crearAutor(request):
-    if request.method == 'POST':
-        autor_form = Autorforms(request.POST)
-        if autor_form.is_valid():
-            autor_form.save()
-            return redirect('index')
-    else:
-        autor_form = Autorforms()
-    return render(request, 'libro/crear_autor.html', {'autor_form': autor_form})
+class Inicio(TemplateView):
+    template_name = 'libro/index.html'
 
-def listarAutor(request):
-    autores = Autor.objects.filter(estado = True) 
-    return render(request, 'libro/listar_autor.html', {'autores': autores})
+class ListadoAutor(ListView):
+    model = Autor
+    template_name = 'libro/index.html'
+    context_object_name = 'autores'
+    queryset = Autor.objects.filter(estado = True) 
 
-def editarAutor(request, id):
-    autor_form = None
-    error = None
-    try:
-        autor = Autor.objects.get(id=id)
+class ActualizarAutor(UpdateView):
+    model = Autor
+    template_name = 'libro/autor/crear_autor.html'
+    form_class = Autorforms
+    success_url = reverse_lazy('libro:listar_autor')
 
-        if request.method == 'GET':
-            autor_form = Autorforms(instance=autor)
-        else:
-            autor_form = Autorforms(request.POST, instance=autor)
-            if autor_form.is_valid():
-                autor_form.save()
-                return redirect('index')
-            
-    except ObjectDoesNotExist as e:
-        error = e        
+class CrearAutor(CreateView):
+    model = Autor
+    form_class = Autorforms
+    template_name = 'libro/autor/crear_autor.html'
+    success_url = reverse_lazy('libro:listar_autor')
 
-    return render(request, 'libro/crear_autor.html', {'autor_form': autor_form, 'error': error})
+class EliminarAutor(DeleteView):
+    model = Autor
+    success_url = reverse_lazy('libro:listar_autor')
 
-def eliminarAutor(request, id):
-    autor = Autor.objects.get(id=id)
-    if request.method == 'POST':
-        autor.estado = False
-        autor.save()
+    def post(self,request,pk,*args,**kwargs):
+        object = Autor.objects.get(id=pk)
+        object.estado = False
+        object.save()
         return redirect('libro:listar_autor')
-    return render(request, 'libro/eliminar_autor.html', {'autor' : autor})
+    
 
-   
+class ListadoLibros(ListView):
+    model = Libro 
+    template_name = 'libro/libro/lista_libro.html'
