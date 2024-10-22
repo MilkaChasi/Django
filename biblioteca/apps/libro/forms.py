@@ -43,7 +43,7 @@ class Autorforms(forms.ModelForm):
 class Libroforms(forms.ModelForm):
     class Meta:
         model = Libro
-        fields = ['titulo', 'fecha_publicacion', 'autor']
+        fields = ['titulo', 'fecha_publicacion', 'autor_id']
         labels = {
             'titulo': 'Título del Libro',
             'fecha_publicacion': 'Fecha de publicación del libro',
@@ -56,13 +56,10 @@ class Libroforms(forms.ModelForm):
                     'placeholder':'Ingrese el título del libro'
                 }
             ),
-            'fecha_publicacion' : forms.TextInput(
-                attrs= {
-                    'class':'form-control',
-                    'placeholder':'Ingrese la fecha de publicación del libro'
-                }
+            'fecha_publicacion' : forms.SelectDateWidget(
+
             ),
-             'autor' : forms.SelectMultiple(
+             'autor_id' : forms.SelectMultiple(
                 attrs= {
                     'class':'form-control',
                     'placeholder':'Ingrese el nombre del autor'

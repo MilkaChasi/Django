@@ -30,15 +30,11 @@ Listado de Libros
           <td>{{ libro.id }}</td>
           <td>{{ libro.titulo }}</td>
           <td>{{ libro.fecha_publicacion }}</td>
-          <td>{{ libro.autor.nombre }}</td>
+          <td>{{ libro.autor_id.nombre }}</td>
           <td>
             <a href="{% url 'libro:editar_libro' libro.id %}" class="btn btn-primary">Editar</a>
             <a href="{% url 'libro:eliminar_libro' libro.id %}" class="btn btn-danger">Eliminar</a>
           </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="5">No hay libros disponibles.</td>
         </tr>
         {% endfor %}
       </tbody>
