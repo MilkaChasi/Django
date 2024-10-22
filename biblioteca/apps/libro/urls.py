@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import ListadoAutor, ActualizarAutor, CrearAutor, EliminarAutor
+from .views import *
 
 urlpatterns = [
  
