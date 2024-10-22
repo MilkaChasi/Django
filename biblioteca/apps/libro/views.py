@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy
-from .forms import Autorforms
+from .forms import *
 from .models import Autor, Libro
 
 
@@ -38,6 +38,32 @@ class EliminarAutor(DeleteView):
         return redirect('libro:listar_autor')
     
 
-class ListadoLibros(ListView):
+
+
+class ListadoLibro(ListView):
     model = Libro 
     template_name = 'libro/libro/lista_libro.html'
+    context_object_name = 'libros'
+    queryset = Libro.objects.filter(estado = True)
+     
+class CrearLibro(CreateView):
+    model = Libro
+    form_class = Libroforms
+    template_name = 'libro/libro/crear_libro.html'
+    success_url = reverse_lazy('libro:lista_libro')
+
+class ActualizarLibro(UpdateView):
+    model = Libro
+    template_name = 'libro/libro/crear_libro.html'
+    form_class = Autorforms
+    success_url = reverse_lazy('libro:lista_libro')
+
+class EliminarLibro(DeleteView):
+    model = Libro
+    success_url = reverse_lazy('libro:lista_libro')
+
+    def post(self,request,pk,*args,**kwargs):
+        object = Libro.objects.get(id=pk)
+        object.estado = False
+        object.save()
+        return redirect('libro:lista_libro')

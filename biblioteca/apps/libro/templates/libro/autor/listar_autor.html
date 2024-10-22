@@ -1,19 +1,15 @@
-{% extends 'index.html' %}
+{% extends 'libro/index.html' %}
 
 {% block titulo %}
-    Listado de Autores
+Listado de Autores
 {% endblock titulo %}
 
-{% block body %}
+{% block content %}
 <div class="card">
   <div class="card-header">
     <div class="row">
       <div class="col-md-8">
         <strong class="card-title">Listado de Autores</strong>
-      </div>
-      <div class="col-md-4">
-        <button type="button" class="btn btn-primary"
-          onclick="abrir_modal_creacion('{% url 'libro:crear_autor' %}');"> REGISTRAR AUTOR</button>
       </div>
     </div>
 
@@ -22,27 +18,35 @@
     <table id="tabla_autores" class="table">
       <thead>
         <tr>
-          <th>#</th>
+          <th>ID</th>
           <th>Nombres</th>
-          <th>Apellidos</th>
+          <th>Apellido</th>
           <th>Nacionalidad</th>
           <th>Descripcion</th>
+          <th>Opciones</th>
         </tr>
       </thead>
       <tbody>
+        {% for autor in autores %}
+        <tr>
+          <td>{{ autor.id }}</td>
+          <td>{{ autor.nombre }}</td>
+          <td>{{ autor.apellido }}</td>
+          <td>{{ autor.nacionalidad }}</td>
+          <td>{{ autor.descripcion }}</td>
+          <td>
+            {% if autor.id %}
+            <a href="{% url 'libro:editar_autor' autor.id %}" class="btn btn-primary">Editar</a>
+            {% endif %}
+            {% if autor.id %}
+            <a href="{% url 'libro:eliminar_autor' autor.id %}" class="btn btn-danger">Eliminar</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
 </div>
-<div class="modal fade" id="creacion" role="dialog">
 
-</div>
-<div class="modal fade" id="edicion" role="dialog">
-
-</div>
-<div class="modal fade" id="eliminacion" role="dialog">
-
-</div>
-
-
-{% endblock body %}
+{% endblock %}

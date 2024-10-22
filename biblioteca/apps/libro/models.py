@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 class Autor(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField('Nombre',max_length=200, blank=False, null = False)
@@ -21,7 +21,9 @@ class Libro(models.Model):
     id = models.AutoField(primary_key = True)
     titulo = models.CharField('Título',max_length=225, blank=False, null=False)
     fecha_publicacion = models.DateField('Fecha de publicación', blank=False, null=False)
-    autor_id= models.OneToOneField(Autor, on_delete = models.CASCADE)
+    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
+    estado = models.BooleanField('Estado', default = True)
+
 
     class Meta:
         verbose_name = 'Libro'

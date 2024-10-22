@@ -10,7 +10,10 @@ urlpatterns = [
 
 
 
-   path('lista_libro', ListadoAutor.as_view(), name = 'lista_libro')
+   path('lista_libro/', ListadoLibro.as_view(), name = 'lista_libro'),
+   path('crear_libro/', CrearLibro.as_view() , name = 'crear_libro'),
+   path('editar_libro/<int:pk>', ActualizarLibro.as_view(), name = 'editar_libro'),
+   path('eliminar_libro/<int:pk>', EliminarLibro.as_view(), name = 'eliminar_libro'),
 
 
 

@@ -1,0 +1,22 @@
+{% extends "libro/index.html" %}
+
+{% block titulo %}
+Eliminación de Libros
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p><strong>
+        ¿Desea eliminar el registro del siguiente libro: {{  object }}?
+    </strong>
+    </p>
+
+    <button type="submit">Eliminar</button>
+    <button>
+        <a href="{% url 'libro:lista_libro' %}">Cancelar</a>
+    </button>
+
+</form>
+
+{% endblock %}
